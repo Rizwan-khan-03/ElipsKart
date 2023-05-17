@@ -1,0 +1,66 @@
+import * as action_type from '../../../../store/Constant';
+
+interface AuthenticationState {
+  loading: boolean;
+  redirect: boolean;
+  data: any;
+  error?: string;
+  mobileDetails: any;
+}
+
+const initialState: AuthenticationState = {
+  loading: false,
+  redirect: true,
+  data: null,
+  mobileDetails:null
+};
+
+export const mobileListReducer = (
+  state: AuthenticationState = initialState,
+  action: any
+): AuthenticationState => {
+  switch (action.type) {
+    //MOBILELIST START
+    case action_type.MOBILELIST_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case action_type.MOBILELIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: action.data,
+      };
+    case action_type.MOBILELIST_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    //MOBILELIST END 
+    
+    //MOBILE DETAILS START
+    case action_type.MOBILEDETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case action_type.MOBILEDETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        mobileDetails: action.data,
+      };
+    case action_type.MOBILEDETAILS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    //MOBILE DETAILS START
+
+    default:
+      return state;
+  }
+};
