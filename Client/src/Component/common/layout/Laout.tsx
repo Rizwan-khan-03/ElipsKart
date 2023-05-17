@@ -8,6 +8,7 @@ import { routepath } from '../../../Router/RouteList';
 import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from '../../../Router/ProtectRoutes';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { clearStorage } from '../../../Config/Service/Service';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -92,6 +93,7 @@ export default function Layout() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={()=>clearStorage()}>Log Out</MenuItem>
     </Menu>
   );
 

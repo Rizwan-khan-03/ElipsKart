@@ -1,5 +1,5 @@
 const Router = require("express").Router();
-const { verifyTokenAndAdmin ,verifyTokenAndAuthorization } = require("../Auth/AuthMiddlewares");
+const { verifyTokenAndAdmin ,verifyTokenAndAuthorization,verifyToken } = require("../Auth/AuthMiddlewares");
 const {
     addProduct,
     getAllProducts,
@@ -15,13 +15,13 @@ const {
 Router.post("/addproduct",verifyTokenAndAdmin, addProduct);
 
 // get product
-Router.get("/:id", verifyTokenAndAdmin,getProduct);
+Router.get("/:id", verifyToken,getProduct);
 //update product
 Router.put("/update", verifyTokenAndAdmin,updateProduct);
 // get all user
-Router.get("/", verifyTokenAndAdmin,getAllProducts);
+Router.get("/", verifyToken,getAllProducts);
 // get  product by dates filter
-Router.get("/filter", verifyTokenAndAdmin,productByFilters);
+Router.get("/filter", verifyToken,productByFilters);
 Router.delete("/:id", verifyTokenAndAdmin,deleteProduct);
 
 
