@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.6475b4f8.css",
-    "main.js": "/static/js/main.0bde5585.js",
+    "main.js": "/static/js/main.f750bb9f.js",
     "static/media/elec.jpg": "/static/media/elec.a1c2fe063008606c5ca4.jpg",
     "static/media/moblies.jpg": "/static/media/moblies.fd31b25ceef34d59c896.jpg",
     "static/media/fashion.jpg": "/static/media/fashion.216a9e8c818af06b2adc.jpg",
@@ -13,10 +13,10 @@
     "static/media/pocomobile.png": "/static/media/pocomobile.80360844b81bac5066cd.png",
     "index.html": "/index.html",
     "main.6475b4f8.css.map": "/static/css/main.6475b4f8.css.map",
-    "main.0bde5585.js.map": "/static/js/main.0bde5585.js.map"
+    "main.f750bb9f.js.map": "/static/js/main.f750bb9f.js.map"
   },
   "entrypoints": [
     "static/css/main.6475b4f8.css",
-    "static/js/main.0bde5585.js"
+    "static/js/main.f750bb9f.js"
   ]
 }
