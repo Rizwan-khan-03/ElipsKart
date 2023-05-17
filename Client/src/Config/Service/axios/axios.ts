@@ -15,30 +15,30 @@ const AUTH_HEADERS = () => {
 }
 
 axiosClient.interceptors.response.use(
-  (response) => response ,
-  (error) =>  error
+  (response:any) => response ,
+  (error:any) =>  error
 );
 
 export function getRequest(URL:string) {
   console.log('getRequest',URL);
   
-  return axiosClient.get(`${AppConfig?.baseURL}${URL}`, AUTH_HEADERS()).then((response) => response);
+  return axiosClient.get(`${AppConfig?.baseURL}${URL}`, AUTH_HEADERS()).then((response:any) => response);
 }
 
 export function postRequest(URL:string, payload:{}) {
   return axiosClient
     .post(`${AppConfig?.baseURL}${URL}`, payload, AUTH_HEADERS())
-    .then((response) => response);
+    .then((response:any) => response);
 }
 
 export function putRequest(URL:string, payload:{})  {
   return axiosClient
     .put(`${AppConfig?.baseURL}${URL}`, payload, AUTH_HEADERS())
-    .then((response) => response);
+    .then((response:any) => response);
 }
 
 export function deleteRequest(URL:string, payload:{})  {
-  return axiosClient.delete(`${AppConfig?.baseURL}${URL}`, AUTH_HEADERS()).then((response) => response);
+  return axiosClient.delete(`${AppConfig?.baseURL}${URL}`, AUTH_HEADERS()).then((response:any) => response);
 }
 
 export default axiosClient;
