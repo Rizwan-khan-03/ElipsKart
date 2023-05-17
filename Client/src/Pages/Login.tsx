@@ -38,7 +38,7 @@ export default function SignIn() {
   useEffect(() => {
     if (loginSuccess?.data?.success) {
       setToken(loginSuccess?.data?.accesToken);
-      navigate("/h2");
+      navigate("/home");
     } else {
       console.log("loginSuccess", loginSuccess?.data?.message);
     }
