@@ -10,7 +10,7 @@ export const setToken = (Name: any) => {
   export const clearStorage = (key = "") => {
     if (key == "") {
       localStorage.clear();
-      window.location.reload()
+      window.location.reload();
     }
   };
 
