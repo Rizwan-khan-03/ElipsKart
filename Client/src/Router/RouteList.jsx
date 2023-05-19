@@ -17,6 +17,7 @@ import Home from "../Component/maincomponent/Home/Home";
 import Fashion from "../Component/maincomponent/Fashion/Fashion";
 import Electronics from "../Component/maincomponent/Electronics/Electronics";
 import SelectedMobileDetails from "../Component/maincomponent/Mobiless/SelectedMobileDetails";
+import CartDtails from "../Component/maincomponent/Order/Index";
 
 
 //UserDetails
@@ -66,6 +67,11 @@ export const routepath = [
   {
     path: "/beauty",
     Element: Beauty,
+    private: true,
+  },
+  {
+    path: "/cart",
+    Element: CartDtails,
     private: true,
   },
 ];
