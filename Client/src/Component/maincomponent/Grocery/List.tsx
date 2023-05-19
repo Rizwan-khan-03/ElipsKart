@@ -84,7 +84,6 @@ const ImageWrapper = styled("div")({
 });
 
 export default function GroceriesList(data: any) {
-  console.log("data", data);
 
   return (
     <Link to={''} style={{ textDecoration: 'none', }}>

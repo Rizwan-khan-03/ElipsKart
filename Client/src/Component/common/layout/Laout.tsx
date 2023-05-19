@@ -1,14 +1,27 @@
-import * as React from 'react';
+import  React,{useEffect} from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { AppBar,Box,Toolbar,IconButton,Typography,InputBase,Badge,MenuItem,Menu,Grid,} from '@mui/material';
-import {Menu as MenuIcon,Search as SearchIcon,AccountCircle,Mail as MailIcon,Notifications as NotificationsIcon,MoreVert as MoreIcon,
+import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, Badge, MenuItem, Menu, Grid, } from '@mui/material';
+import {
+  Menu as MenuIcon, Search as SearchIcon, AccountCircle, Mail as MailIcon, Notifications as NotificationsIcon, MoreVert as MoreIcon,
 } from '@mui/icons-material';
 import Haeder from '../Haeder';
 import { routepath } from '../../../Router/RouteList';
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import PrivateRoute from '../../../Router/ProtectRoutes';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { clearStorage } from '../../../Config/Service/Service';
+import { Link } from 'react-router-dom';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import CssBaseline from '@mui/material/CssBaseline';
+import FilterSideBar from '../../maincomponent/Grocery/FilterSideBar';
+import SideBar from './SideBar';
+// import { mobileData ,groceryData} from "../../../Config/data";
+ import { data} from "../../../Config/data";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -49,14 +62,68 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Layout() {
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+}
+const drawerWidth = 240;
+const navItems = ['Home', 'About', 'Contact'];
+
+export default function Layout(props: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
-
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [sideBarData, setSideBarData] = React.useState([]);
+  const param=useParams();
+  const url = param["*"];
+  console.log("url",url);
+  // console.log("data",data);
+  let newUrl:any;
+useEffect(() => {
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      console.log("key:", key);
+      if (key === url) {
+        console.log("data[key]:", data[key]);
+        setSideBarData(data[key])
+        console.log("Match found! Key:", key);
+        break;  
+      }
+    }
+  }
+ 
+  return () => {
+    
+  }
+}, [url])
+console.log("sideBarData:", sideBarData);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  let minWidth: any = 0;
+  // function updateMinWidth() {
+  //   const element: any = document.querySelector('.layoutContainer');
+  //   minWidth = element?.offsetWidth;
+  //   console.log(minWidth);
+  // }
+  // window.addEventListener('resize', updateMinWidth);
+  // updateMinWidth();
+  // React.useEffect(() => {
+  //   const element: any = document.querySelector('.layoutContainer');
 
+  //   console.log("minWidth,", minWidth);
+  // }, [minWidth])
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+  const drawer = (
+    <SideBar data={sideBarData}/>
+  );
+  const container = window !== undefined ? () => window().document.body : undefined;
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -93,7 +160,7 @@ export default function Layout() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={()=>clearStorage()}>Log Out</MenuItem>
+      <MenuItem onClick={() => clearStorage()}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -115,12 +182,14 @@ export default function Layout() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
+        <Link to="cart">
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={4} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+        </Link>
+        <p>Cart</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -152,15 +221,15 @@ export default function Layout() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12}>
+        <Grid item xs={12} md={12} className="layoutContainer">
           <AppBar position="fixed" >
             <Toolbar>
               <IconButton
-                size="large"
-                edge="start"
                 color="inherit"
                 aria-label="open drawer"
-                sx={{ mr: 2 }}
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: 'none' } }}
               >
                 <MenuIcon />
               </IconButton>
@@ -183,11 +252,13 @@ export default function Layout() {
               </Search>
               <Box sx={{ flexGrow: 1 }}></Box>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                  <Badge badgeContent={4} color="error">
-                    <ShoppingCartIcon />
-                  </Badge>
-                </IconButton>
+                <Link to="cart" style={{ color: "#fff" }}>
+                  <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                    <Badge badgeContent={4} color="error">
+                      <ShoppingCartIcon />
+                    </Badge>
+                  </IconButton>
+                </Link>
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
@@ -224,32 +295,49 @@ export default function Layout() {
             </Toolbar>
             <Haeder />
           </AppBar>
+          <Box component="nav">
+            <Drawer
+              container={container}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: { xs: 'block', sm: 'none' },
+                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Box>
           {renderMobileMenu}
           {renderMenu}
         </Grid>
       </Grid>
       <Grid item xs={12} md={12}>
-      <Box sx={{ flexGrow: 1, marginTop: '116px' }}>
-        <Routes>
-          {routepath.map((i: any, index: any) => {
-            if (i.private) {
-              return (
-                <Route
-                  key={`routes_${index}`}
-                  path={i.path}
-                  element={<PrivateRoute Component={i.Element} />}
+        <Box sx={{ flexGrow: 1, marginTop: '116px' }}>
+          <Routes>
+            {routepath.map((i: any, index: any) => {
+              if (i.private) {
+                return (
+                  <Route
+                    key={`routes_${index}`}
+                    path={i.path}
+                    element={<PrivateRoute Component={i.Element} />}
 
-                />
-              );
-            } else {
-              return (
-                <Route key={`routes_${index}`} path="*" element={<h6>notfound</h6>} />
-              );
-            }
-          })}
-        </Routes>
-      </Box>
+                  />
+                );
+              } else {
+                return (
+                  <Route key={`routes_${index}`} path="*" element={<h6>notfound</h6>} />
+                );
+              }
+            })}
+          </Routes>
+        </Box>
       </Grid>
-    </Box>
+    </Box >
   );
 }
